@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <title>
+            <ui:insert name="titulo">Bem-vindo ao GeoRef!</ui:insert>
+        </title>
+    </h:head>
+    <h:body>
+        <!--pagina toda-->
+        <div id="pagina">
+            <!--conteudo da pagina-->
+            <div id="container-principal">
+
+                <!--barra menu-->
+                <div id="menu-container">
+                    <h:form prependId="false">  
+                        <p:menubar id="menuBar">
+                            <p:menuitem icon="ui-icon-home" value="Início" url="index.xhtml" ajax="false" style="width: 65px;"/> 
+                            <p:menuitem value="Cadastro de Arquivos" url="arquivo.xhtml" ajax="false" />
+                        </p:menubar>
+                    </h:form>  
+                </div>
+                <!--aqui é conteudo dinamico da pagina-->
+                <div id="conteudo-container">
+                    <ui:insert name="conteudo">
+                        <div class="conteudo-estilo">
+                            <!--inserir texto aqui!-->
+                        </div>
+                    </ui:insert>
+
+                </div>
+            </div>
+            <div id="rodape">
+                
+            </div>
+        </div>
+    </h:body>
+</html>
