@@ -14,7 +14,7 @@
     <h:body>
         <ui:composition template="/templates/base.xhtml">
             <ui:define name="conteudo">
-                
+
                 <p:panel id="panelBody" styleClass="panel-form">  
                     <div class="titulo-cabecalho-form">
                         <span id="gerenciamentoArquivos" class="titulo_formulario">Gerenciamento de Arquivos</span>
@@ -28,9 +28,37 @@
                             <span class="titulo_formulario">Cadastro de Arquivos</span>
                         </div>
 
-                        <span>OBS: Os Campos com <span class="campo-obrigatorio">*</span> são obrigatórios.</span>
-
                         <p:messages id="messageCadastroArquivo" showSummary="true" closable="true" escape="false"/>
+
+                        <h:panelGrid columns="2" cellpadding="1" id="gridFormNewArquivo" styleClass="panel-grid-4">
+
+                            <p>Nome do arquivo</p>
+                            <p:inputText value="#{arquivoMB.arquivo.nome}"
+                                         required="true" size="40"
+                                         maxlength="80"
+                                         requiredMessage="O Campo NOME DO ARQUIVO é Obrigatório."/>
+                            <p>Caractere de tabulação</p>
+                            <p:inputText value="#{arquivoMB.arquivo.caractereDetabulacao}"
+                                         size="5"
+                                         maxlength="5"/>
+                            <p>Extensão</p>
+                            <p:selectOneMenu value="#{arquivoMB.arquivo.extensao}">  
+                                <f:selectItem itemLabel="CSV" itemValue="CSV" />
+                                <f:selectItem itemLabel="XML" itemValue="XML" />
+                                <f:selectItem itemLabel="JSON" itemValue="JSON" />
+                            </p:selectOneMenu>
+                            <p></p>                       
+                            <p:fileUpload mode="advanced" cancelLabel="Cancelar"
+                                          label="Selecionar" dragDropSupport="false" 
+                                          auto="true"                                      
+                                          multiple="false" sizeLimit="25000000"                                      
+                                          allowTypes="/(\.|\/)(csv|json|xml)$/"
+                                          invalidSizeMessage="O arquivo que você está tentando enviar excede o limite de 25 MB para anexo."
+                                          invalidFileMessage="Este formato de arquivo não é suportado. Bloqueado por razões de segurança.">
+                            </p:fileUpload>
+
+                        </h:panelGrid>
+
                     </h:form>
                 </p:panel>
             </ui:define>

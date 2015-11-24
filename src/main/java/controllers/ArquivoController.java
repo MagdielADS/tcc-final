@@ -9,13 +9,14 @@ package controllers;
 import dominio.Arquivo;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 
 /**
  *
  * @author Desenvolvedor01
  */
-@ManagedBean
-@RequestScoped
+@ManagedBean(name = "arquivoMB")
+@ViewScoped
 public class ArquivoController {
     private Arquivo arquivo;
 
