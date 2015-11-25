@@ -47,18 +47,24 @@
                                 <f:selectItem itemLabel="XML" itemValue="XML" />
                                 <f:selectItem itemLabel="JSON" itemValue="JSON" />
                             </p:selectOneMenu>
-                            <p></p>                       
-                            <p:fileUpload mode="advanced" cancelLabel="Cancelar"
-                                          label="Selecionar" dragDropSupport="false" 
-                                          auto="true"                                      
+                            <p>Selecione o arquivo</p>                       
+                            <p:fileUpload mode="simple" 
+                                          label="Selecionar"
+                                          value="#{fileUploadView.file}"
+                                          fileUploadListener="#{arquivoMB.upload()}"                                
                                           multiple="false" sizeLimit="25000000"                                      
                                           allowTypes="/(\.|\/)(csv|json|xml)$/"
                                           invalidSizeMessage="O arquivo que você está tentando enviar excede o limite de 25 MB para anexo."
                                           invalidFileMessage="Este formato de arquivo não é suportado. Bloqueado por razões de segurança.">
                             </p:fileUpload>
-
+                            
+                            <p>Coluna de busca</p>
+                            <p:selectOneMenu value="#{arquivoMB.arquivo.colunaDeBusca}">  
+                                <f:selectItem itemLabel="CSV" itemValue="CSV" />
+                                <f:selectItem itemLabel="XML" itemValue="XML" />
+                                <f:selectItem itemLabel="JSON" itemValue="JSON" />
+                            </p:selectOneMenu>
                         </h:panelGrid>
-
                     </h:form>
                 </p:panel>
             </ui:define>
