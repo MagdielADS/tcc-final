@@ -42,6 +42,6 @@ public class TesteGerenciadorCSV {
 //        System.out.println(gerencia.verificarSeColunaExiste("C:\\Users\\Desenvolvedor01\\Documents\\Magdiel - TCC\\ubs.csv", "cod_munic"));
         
 //        QUANTIDADE DE LINHAS DO ARQUIVO
-        System.out.println(gerencia.qtdeLinhas("C:\\Users\\Desenvolvedor01\\Documents\\Magdiel - TCC\\ubs.csv"));
+//        System.out.println(gerencia.qtdeLinhas("C:\\Users\\Desenvolvedor01\\Documents\\Magdiel - TCC\\ubs.csv"));
     }
 }

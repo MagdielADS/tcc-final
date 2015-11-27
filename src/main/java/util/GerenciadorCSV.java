@@ -7,6 +7,7 @@
 package util;
 
 import com.opencsv.CSVReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -21,10 +22,10 @@ import java.util.logging.Logger;
  */
 public class GerenciadorCSV {
     
-    public List<String[]> lerArquivo(String caminho){
+    public static List<String[]> lerArquivo(File file){
         List<String[]> linhas = new ArrayList();
         try {
-            CSVReader reader = new CSVReader(new FileReader(caminho));
+            CSVReader reader = new CSVReader(new FileReader(file));
             linhas = reader.readAll();
         } catch (FileNotFoundException ex) {
             Logger.getLogger(GerenciadorCSV.class.getName()).log(Level.SEVERE, null, ex);
@@ -34,19 +35,19 @@ public class GerenciadorCSV {
         return linhas;
     }
     
-    public String[] getNomeDasColunas(String caminho){
-        List<String[]> linhas = lerArquivo(caminho);
+    public static String[] getNomeDasColunas(File file){
+        List<String[]> linhas = lerArquivo(file);
         return linhas.get(0);
     }
     
-    public List<String[]> getValoresDoArquivo(String caminho){
-        List<String[]> linhas = lerArquivo(caminho);
+    public static List<String[]> getValoresDoArquivo(File file){
+        List<String[]> linhas = lerArquivo(file);
         linhas.remove(0);
         return linhas;
     }
     
-    public boolean verificarSeColunaExiste(String caminho, String coluna){
-        String[] colunas = getNomeDasColunas(caminho);
+    public static boolean verificarSeColunaExiste(File file, String coluna){
+        String[] colunas = getNomeDasColunas(file);
         boolean result = false;
         for(int i = 0; i < colunas.length; i++){
             if(colunas[i].equals(coluna)){
@@ -57,10 +58,10 @@ public class GerenciadorCSV {
         return result;
     }
     
-    public int qtdeLinhas(String caminho){
+    public static int qtdeLinhas(File file){
         int result = 0;
         try {
-            CSVReader reader = new CSVReader(new FileReader(caminho));
+            CSVReader reader = new CSVReader(new FileReader(file));
             result = reader.readAll().size();
         } catch (FileNotFoundException ex) {
             Logger.getLogger(GerenciadorCSV.class.getName()).log(Level.SEVERE, null, ex);

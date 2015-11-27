@@ -47,24 +47,27 @@
                                 <f:selectItem itemLabel="XML" itemValue="XML" />
                                 <f:selectItem itemLabel="JSON" itemValue="JSON" />
                             </p:selectOneMenu>
-                            <p>Selecione o arquivo</p>                       
-                            <p:fileUpload mode="simple" 
-                                          label="Selecionar"
-                                          value="#{fileUploadView.file}"
-                                          fileUploadListener="#{arquivoMB.upload()}"                                
+                            <p>Selecione o arquivo</p>  
+                            <p:fileUpload mode="advanced" cancelLabel="Cancelar"
+                                          label="Selecionar" dragDropSupport="false" 
+                                          fileUploadListener="#{arquivoMB.upload}"
+                                          auto="true"                                      
                                           multiple="false" sizeLimit="25000000"                                      
                                           allowTypes="/(\.|\/)(csv|json|xml)$/"
                                           invalidSizeMessage="O arquivo que você está tentando enviar excede o limite de 25 MB para anexo."
-                                          invalidFileMessage="Este formato de arquivo não é suportado. Bloqueado por razões de segurança.">
+                                          invalidFileMessage="Este formato de arquivo não é suportado. Bloqueado por razões de segurança."
+                                          process="@this"
+                                          update=":formNewArquivos:colunas">
                             </p:fileUpload>
-                            
+
                             <p>Coluna de busca</p>
-                            <p:selectOneMenu value="#{arquivoMB.arquivo.colunaDeBusca}">  
-                                <f:selectItem itemLabel="CSV" itemValue="CSV" />
-                                <f:selectItem itemLabel="XML" itemValue="XML" />
-                                <f:selectItem itemLabel="JSON" itemValue="JSON" />
+                            <p:selectOneMenu id="colunas" value="#{arquivoMB.arquivo.colunaDeBusca}"
+                                             disabled="#{!arquivoMB.renderColunas}">
+                                <f:selectItem itemLabel="Selecione a coluna" itemValue="" noSelectionOption="true"/>
+                                <f:selectItems value="#{arquivoMB.colunas}" />
                             </p:selectOneMenu>
                         </h:panelGrid>
+
                     </h:form>
                 </p:panel>
             </ui:define>
