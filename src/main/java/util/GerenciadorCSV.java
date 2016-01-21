@@ -22,10 +22,17 @@ import java.util.logging.Logger;
  */
 public class GerenciadorCSV {
     
-    public static List<String[]> lerArquivo(File file){
+    /**
+     * 
+     * @param file arquivo do tipo CSV
+     * @param caracTabulacao char de tabulação, para ser usado no processo de criação do leitor de CSV
+     * @return List de Arrays de String, contendo assim para cada item da lista uma linha do arquivo, sendo os índices do Array as colunas separadas da linha. 
+     * A primeira linha seria o cabeçalho do arquivo.
+     */
+    public static List<String[]> lerArquivo(File file, char caracTabulacao){
         List<String[]> linhas = new ArrayList();
         try {
-            CSVReader reader = new CSVReader(new FileReader(file));
+            CSVReader reader = new CSVReader(new FileReader(file),caracTabulacao);
             linhas = reader.readAll();
         } catch (FileNotFoundException ex) {
             Logger.getLogger(GerenciadorCSV.class.getName()).log(Level.SEVERE, null, ex);
@@ -35,19 +42,19 @@ public class GerenciadorCSV {
         return linhas;
     }
     
-    public static String[] getNomeDasColunas(File file){
-        List<String[]> linhas = lerArquivo(file);
+    public static String[] getNomeDasColunas(File file, char caracTabulacao){
+        List<String[]> linhas = lerArquivo(file, caracTabulacao);
         return linhas.get(0);
     }
     
-    public static List<String[]> getValoresDoArquivo(File file){
-        List<String[]> linhas = lerArquivo(file);
+    public static List<String[]> getValoresDoArquivo(File file, char caracTabulacao){
+        List<String[]> linhas = lerArquivo(file,caracTabulacao);
         linhas.remove(0);
         return linhas;
     }
     
-    public static boolean verificarSeColunaExiste(File file, String coluna){
-        String[] colunas = getNomeDasColunas(file);
+    public static boolean verificarSeColunaExiste(File file, String coluna, char caracTabulacao){
+        String[] colunas = getNomeDasColunas(file, caracTabulacao);
         boolean result = false;
         for(int i = 0; i < colunas.length; i++){
             if(colunas[i].equals(coluna)){
@@ -58,10 +65,10 @@ public class GerenciadorCSV {
         return result;
     }
     
-    public static int qtdeLinhas(File file){
+    public static int qtdeLinhas(File file, char caracTabulacao){
         int result = 0;
         try {
-            CSVReader reader = new CSVReader(new FileReader(file));
+            CSVReader reader = new CSVReader(new FileReader(file), caracTabulacao);
             result = reader.readAll().size();
         } catch (FileNotFoundException ex) {
             Logger.getLogger(GerenciadorCSV.class.getName()).log(Level.SEVERE, null, ex);

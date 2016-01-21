@@ -28,7 +28,7 @@ import util.GerenciadorCSV;
 @ViewScoped
 public class ArquivoController {
 
-    private boolean renderColunas;
+    private boolean renderColunas, renderCaractere;
     private Arquivo arquivo;
     private UploadedFile file;
     private File fileTemp;
@@ -40,6 +40,14 @@ public class ArquivoController {
     public ArquivoController() {
     }
 
+    public boolean isRenderCaractere() {
+        return renderCaractere;
+    }
+
+    public void setRenderCaractere(boolean renderCaractere) {
+        this.renderCaractere = renderCaractere;
+    }
+
     public boolean isRenderColunas() {
         return renderColunas;
     }
@@ -47,8 +55,6 @@ public class ArquivoController {
     public void setRenderColunas(boolean renderColunas) {
         this.renderColunas = renderColunas;
     }
-    
-    
 
     public File getFileTemp() {
         return fileTemp;
@@ -65,8 +71,6 @@ public class ArquivoController {
     public void setColunas(List<String> colunas) {
         this.colunas = colunas;
     }
-    
-    
 
     public UploadedFile getFile() {
         return file;
@@ -83,9 +87,23 @@ public class ArquivoController {
     public void setArquivo(Arquivo arquivo) {
         this.arquivo = arquivo;
     }
+
+    public void verificaExtensaoDoArquivo() {
+        if (this.arquivo.getExtensao().equalsIgnoreCase("CSV")) {
+            setRenderCaractere(true);
+        } else {
+            setRenderCaractere(false);
+        }
+    }
     
+    public void soutC(){
+        System.out.println("Caracter: "+this.arquivo.getCaractereDetabulacao());
+    }
+
     public void upload(FileUploadEvent event) {
-        System.out.println("MÉTODO");
+//        System.out.println("MÉTODO");
+        System.out.println("Caractere: " + arquivo.getCaractereDetabulacao());
+//        System.out.println("Nome: " + arquivo.getNome());
         try {
             String nomeArq = event.getFile().getFileName();
             String fileName = nomeArq;
@@ -101,6 +119,7 @@ public class ArquivoController {
 
             try (InputStream inputStream = event.getFile().getInputstream()) {
                 out = new FileOutputStream(new File(this.fileTemp.getAbsolutePath()));
+                this.arquivo.setCaminho(this.fileTemp.getAbsolutePath());
                 int byteLido;
                 byte[] buffer = new byte[2048];
                 while ((byteLido = inputStream.read(buffer)) != -1) {
@@ -109,21 +128,22 @@ public class ArquivoController {
             }
             out.flush();
             out.close();
-            
-            String[] colunas = GerenciadorCSV.getNomeDasColunas(fileTemp);
-            
+
+            String[] colunas = GerenciadorCSV.getNomeDasColunas(fileTemp, arquivo.getCaractereDetabulacao());
+
             for (String string : colunas) {
                 this.colunas.add(string);
             }
             
             setRenderColunas(true);
+            System.out.println("Caminho: "+this.arquivo.getCaminho());
         } catch (IOException ex) {
         }
     }
-    
+
     @PostConstruct
     public void onCreate() {
         this.colunas = new ArrayList<>();
-
+        this.arquivo = new Arquivo();
     }
 }

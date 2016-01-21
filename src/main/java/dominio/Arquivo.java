@@ -22,6 +22,35 @@ public class Arquivo{
     private char caractereDetabulacao;
     private String extensao;
     private StatusDoArquivo status;
+    private String latitude;
+    private String longitude;
+    private String referenciaDeLugar;
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getReferenciaDeLugar() {
+        return referenciaDeLugar;
+    }
+
+    public void setReferenciaDeLugar(String referenciaDeLugar) {
+        this.referenciaDeLugar = referenciaDeLugar;
+    }
+    
+    
 
     public String getNome() {
         return nome;

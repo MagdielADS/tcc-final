@@ -22,7 +22,7 @@
 
                     <hr class="separator"/>
 
-                    <h:form prependId="false" id="formNewArquivos">
+                    <h:form prependId="false" id="formNewArquivos" enctype="multipart/form-data">
 
                         <div class="titulo-cabecalho-form">
                             <span class="titulo_formulario">Cadastro de Arquivos</span>
@@ -32,36 +32,77 @@
 
                         <h:panelGrid columns="2" cellpadding="1" id="gridFormNewArquivo" styleClass="panel-grid-4">
 
+                            <!--PROCESSAR CADA CAMPO E LIBERAR O PROXIMO, UTILIZANDO UPDATE PARA DESABILITAR-->
+
                             <p>Nome do arquivo</p>
                             <p:inputText value="#{arquivoMB.arquivo.nome}"
                                          required="true" size="40"
                                          maxlength="80"
                                          requiredMessage="O Campo NOME DO ARQUIVO é Obrigatório."/>
-                            <p>Caractere de tabulação</p>
-                            <p:inputText value="#{arquivoMB.arquivo.caractereDetabulacao}"
-                                         size="5"
-                                         maxlength="5"/>
+
+
                             <p>Extensão</p>
-                            <p:selectOneMenu value="#{arquivoMB.arquivo.extensao}">  
+                            <p:selectOneMenu value="#{arquivoMB.arquivo.extensao}"
+                                             required="true">  
+                                <f:selectItem itemLabel="Selecione a extensão" itemValue="" noSelectionOption="true" />
                                 <f:selectItem itemLabel="CSV" itemValue="CSV" />
                                 <f:selectItem itemLabel="XML" itemValue="XML" />
                                 <f:selectItem itemLabel="JSON" itemValue="JSON" />
+                                <p:ajax update="formNewArquivos:caractere" 
+                                        listener="#{arquivoMB.verificaExtensaoDoArquivo()}"
+                                        process="@this"
+                                        event="change"/>
                             </p:selectOneMenu>
+
+                            <p>Caractere de tabulação</p>
+                            <p:inputText value="#{arquivoMB.arquivo.caractereDetabulacao}"
+                                         size="5"
+                                         maxlength="1"
+                                         id="caractere"
+                                         required="#{arquivoMB.renderCaractere}"
+                                         disabled="#{!arquivoMB.renderCaractere}">
+                                <p:ajax update="formNewArquivos:upload" 
+                                        process="@this"
+                                        event="blur"/>
+                            </p:inputText>
+
                             <p>Selecione o arquivo</p>  
                             <p:fileUpload mode="advanced" cancelLabel="Cancelar"
                                           label="Selecionar" dragDropSupport="false" 
                                           fileUploadListener="#{arquivoMB.upload}"
-                                          auto="true"                                      
                                           multiple="false" sizeLimit="25000000"                                      
                                           allowTypes="/(\.|\/)(csv|json|xml)$/"
-                                          invalidSizeMessage="O arquivo que você está tentando enviar excede o limite de 25 MB para anexo."
+                                          invalidSizeMessage="O arquivo que você está tentando enviar excede o limite de 25 MB."
                                           invalidFileMessage="Este formato de arquivo não é suportado. Bloqueado por razões de segurança."
-                                          process="@this"
-                                          update=":formNewArquivos:colunas">
+                                          process="@form"
+                                          update=":formNewArquivos:colunas"
+                                          id="upload">
                             </p:fileUpload>
 
                             <p>Coluna de busca</p>
                             <p:selectOneMenu id="colunas" value="#{arquivoMB.arquivo.colunaDeBusca}"
+                                             disabled="#{!arquivoMB.renderColunas}"
+                                             required="true">
+                                <f:selectItem itemLabel="Selecione a coluna" itemValue="" noSelectionOption="true"/>
+                                <f:selectItems value="#{arquivoMB.colunas}" />
+                            </p:selectOneMenu>
+
+                            <p>Latitude</p>
+                            <p:selectOneMenu id="latitude" value="#{arquivoMB.arquivo.latitude}"
+                                             disabled="#{!arquivoMB.renderColunas}">
+                                <f:selectItem itemLabel="Selecione a coluna" itemValue="" noSelectionOption="true"/>
+                                <f:selectItems value="#{arquivoMB.colunas}" />
+                            </p:selectOneMenu>
+
+                            <p>Longitude</p>
+                            <p:selectOneMenu id="longitude" value="#{arquivoMB.arquivo.longitude}"
+                                             disabled="#{!arquivoMB.renderColunas}">
+                                <f:selectItem itemLabel="Selecione a coluna" itemValue="" noSelectionOption="true"/>
+                                <f:selectItems value="#{arquivoMB.colunas}" />
+                            </p:selectOneMenu>
+
+                            <p>Referencia de lugar</p>
+                            <p:selectOneMenu id="referencia" value="#{arquivoMB.arquivo.referenciaDeLugar}"
                                              disabled="#{!arquivoMB.renderColunas}">
                                 <f:selectItem itemLabel="Selecione a coluna" itemValue="" noSelectionOption="true"/>
                                 <f:selectItems value="#{arquivoMB.colunas}" />
