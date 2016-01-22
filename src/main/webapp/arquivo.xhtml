@@ -22,7 +22,7 @@
 
                     <hr class="separator"/>
 
-                    <h:form prependId="false" id="formNewArquivos" enctype="multipart/form-data">
+                    <h:form prependId="false" id="formNewArquivos">
 
                         <div class="titulo-cabecalho-form">
                             <span class="titulo_formulario">Cadastro de Arquivos</span>
@@ -48,7 +48,7 @@
                                 <f:selectItem itemLabel="CSV" itemValue="CSV" />
                                 <f:selectItem itemLabel="XML" itemValue="XML" />
                                 <f:selectItem itemLabel="JSON" itemValue="JSON" />
-                                <p:ajax update="formNewArquivos:caractere" 
+                                <p:ajax update="formNewArquivos:caractere, formNewArquivos:upload" 
                                         listener="#{arquivoMB.verificaExtensaoDoArquivo()}"
                                         process="@this"
                                         event="change"/>
@@ -62,20 +62,22 @@
                                          required="#{arquivoMB.renderCaractere}"
                                          disabled="#{!arquivoMB.renderCaractere}">
                                 <p:ajax update="formNewArquivos:upload" 
+                                        listener="#{arquivoMB.habilitarUpload}"
                                         process="@this"
                                         event="blur"/>
                             </p:inputText>
 
                             <p>Selecione o arquivo</p>  
                             <p:fileUpload mode="advanced" cancelLabel="Cancelar"
-                                          label="Selecionar" dragDropSupport="false" 
+                                          label="Selecionar" dragDropSupport="true" 
                                           fileUploadListener="#{arquivoMB.upload}"
                                           multiple="false" sizeLimit="25000000"                                      
                                           allowTypes="/(\.|\/)(csv|json|xml)$/"
                                           invalidSizeMessage="O arquivo que você está tentando enviar excede o limite de 25 MB."
                                           invalidFileMessage="Este formato de arquivo não é suportado. Bloqueado por razões de segurança."
                                           process="@form"
-                                          update=":formNewArquivos:colunas"
+                                          update=":formNewArquivos:colunas, formNewArquivos:latitude, formNewArquivos:longitude, formNewArquivos:referencia"
+                                          disabled="#{!arquivoMB.renderUpload}"
                                           id="upload">
                             </p:fileUpload>
 
@@ -107,6 +109,14 @@
                                 <f:selectItem itemLabel="Selecione a coluna" itemValue="" noSelectionOption="true"/>
                                 <f:selectItems value="#{arquivoMB.colunas}" />
                             </p:selectOneMenu>
+                            
+                            <p:commandButton icon="ui-icon-disk" 
+                                             value="Salvar"
+                                             id="btSalvar"
+                                             styleClass="ui-confirmdialog-yes bt-sim"
+                                             process="formNewArquivos"
+                                             actionListener="#{arquivoMB.salvarArquivo()}"
+                                             update=":panelBody"/>
                         </h:panelGrid>
 
                     </h:form>

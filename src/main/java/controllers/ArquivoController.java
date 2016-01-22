@@ -5,6 +5,7 @@
  */
 package controllers;
 
+import controllers.util.FacesMessageUtil;
 import dominio.Arquivo;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -14,6 +15,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import org.primefaces.event.FileUploadEvent;
@@ -28,7 +30,7 @@ import util.GerenciadorCSV;
 @ViewScoped
 public class ArquivoController {
 
-    private boolean renderColunas, renderCaractere;
+    private boolean renderColunas, renderCaractere, renderUpload;
     private Arquivo arquivo;
     private UploadedFile file;
     private File fileTemp;
@@ -39,6 +41,16 @@ public class ArquivoController {
      */
     public ArquivoController() {
     }
+
+    public boolean isRenderUpload() {
+        return renderUpload;
+    }
+
+    public void setRenderUpload(boolean renderUpload) {
+        this.renderUpload = renderUpload;
+    }
+    
+    
 
     public boolean isRenderCaractere() {
         return renderCaractere;
@@ -91,13 +103,19 @@ public class ArquivoController {
     public void verificaExtensaoDoArquivo() {
         if (this.arquivo.getExtensao().equalsIgnoreCase("CSV")) {
             setRenderCaractere(true);
+            setRenderUpload(false);
         } else {
             setRenderCaractere(false);
+            setRenderUpload(true);
         }
     }
     
     public void soutC(){
         System.out.println("Caracter: "+this.arquivo.getCaractereDetabulacao());
+    }
+    
+    public void habilitarUpload(){
+        setRenderUpload(true);
     }
 
     public void upload(FileUploadEvent event) {
@@ -139,6 +157,19 @@ public class ArquivoController {
             System.out.println("Caminho: "+this.arquivo.getCaminho());
         } catch (IOException ex) {
         }
+    }
+    
+    public void salvarArquivo(){
+        System.out.println("Nome: "+this.arquivo.getNome());
+        System.out.println("Caminho: "+this.arquivo.getCaminho());
+        System.out.println("Extensao: "+this.arquivo.getExtensao());
+        System.out.println("Latitude: "+this.arquivo.getLatitude());
+        System.out.println("Longitude: "+this.arquivo.getLongitude());
+        System.out.println("Referencia: "+this.arquivo.getReferenciaDeLugar());
+        System.out.println("Caractere: "+this.arquivo.getCaractereDetabulacao());
+        System.out.println("Coluna de Busca: "+this.arquivo.getColunaDeBusca());
+        
+        FacesMessageUtil.showMessageInDialog(FacesMessage.SEVERITY_INFO, "Cadastro de Arquivo", "Transferencia cancelada com sucesso!");
     }
 
     @PostConstruct
