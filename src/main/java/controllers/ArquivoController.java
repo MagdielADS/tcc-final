@@ -160,16 +160,9 @@ public class ArquivoController {
     }
     
     public void salvarArquivo(){
-        System.out.println("Nome: "+this.arquivo.getNome());
-        System.out.println("Caminho: "+this.arquivo.getCaminho());
-        System.out.println("Extensao: "+this.arquivo.getExtensao());
-        System.out.println("Latitude: "+this.arquivo.getLatitude());
-        System.out.println("Longitude: "+this.arquivo.getLongitude());
-        System.out.println("Referencia: "+this.arquivo.getReferenciaDeLugar());
-        System.out.println("Caractere: "+this.arquivo.getCaractereDetabulacao());
-        System.out.println("Coluna de Busca: "+this.arquivo.getColunaDeBusca());
+        //PERSISTIR ARQUIVOs
         
-        FacesMessageUtil.showMessageInDialog(FacesMessage.SEVERITY_INFO, "Cadastro de Arquivo", "Transferencia cancelada com sucesso!");
+        FacesMessageUtil.showMessageInDialog(FacesMessage.SEVERITY_INFO, "Cadastro de Arquivo", "Arquivo cadastrado com sucesso!");
     }
 
     @PostConstruct

@@ -22,7 +22,7 @@
 
                     <hr class="separator"/>
 
-                    <h:form prependId="false" id="formNewArquivos">
+                    <h:form enctype="multipart/form-data" prependId="false" id="formNewArquivos">
 
                         <div class="titulo-cabecalho-form">
                             <span class="titulo_formulario">Cadastro de Arquivos</span>
@@ -69,7 +69,7 @@
 
                             <p>Selecione o arquivo</p>  
                             <p:fileUpload mode="advanced" cancelLabel="Cancelar"
-                                          label="Selecionar" dragDropSupport="true" 
+                                          label="Selecionar" dragDropSupport="false" 
                                           fileUploadListener="#{arquivoMB.upload}"
                                           multiple="false" sizeLimit="25000000"                                      
                                           allowTypes="/(\.|\/)(csv|json|xml)$/"
@@ -109,16 +109,19 @@
                                 <f:selectItem itemLabel="Selecione a coluna" itemValue="" noSelectionOption="true"/>
                                 <f:selectItems value="#{arquivoMB.colunas}" />
                             </p:selectOneMenu>
-                            
-                            <p:commandButton icon="ui-icon-disk" 
+
+<!--                            <p:commandButton icon="ui-icon-disk" 
                                              value="Salvar"
                                              id="btSalvar"
                                              styleClass="ui-confirmdialog-yes bt-sim"
                                              process="formNewArquivos"
                                              actionListener="#{arquivoMB.salvarArquivo()}"
-                                             update=":panelBody"/>
-                        </h:panelGrid>
+                                             update=":panelBody"/>-->
 
+                            <h:commandButton value="Salvar" styleClass="bt-enviar-email">
+                                <f:ajax listener="#{arquivoMB.salvarArquivo()}" render="@form" execute="@form" />
+                            </h:commandButton>
+                        </h:panelGrid>
                     </h:form>
                 </p:panel>
             </ui:define>
